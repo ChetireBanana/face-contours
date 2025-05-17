@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Face Contours</string>
+    <string name="onboarding_screen_title">Face Contours Application</string>
+    <string name="onboarding_screen_text">This application is finding your face contours on your image from gallery or from camera</string>
+</resources>
