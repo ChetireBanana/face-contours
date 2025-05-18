@@ -24,22 +24,23 @@ fun CameraPermissionHandler(
     onPermissionGranted: @Composable () -> Unit,
     onPermissionDenied: () -> Unit
 ) {
-    val context = LocalContext.current
+
     val permissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
     var showRationale by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        permissionState.launchPermissionRequest()
-    }
-
-    when {
-        permissionState.status.isGranted -> onPermissionGranted()
-        permissionState.status.shouldShowRationale -> {
+    if (permissionState.status.isGranted) {
+        onPermissionGranted()
+    } else {
+        if (permissionState.status.shouldShowRationale && !showRationale) {
             showRationale = true
+        } else if (!permissionState.status.shouldShowRationale && !showRationale) {
+            LaunchedEffect(Unit) {
+                permissionState.launchPermissionRequest()
+            }
         }
-
-        else -> onPermissionDenied()
     }
+
+
 
     if (showRationale) {
         AlertDialog(

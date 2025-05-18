@@ -1,6 +1,7 @@
 package com.example.facecontours.presentation.onboarding
 
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,11 +22,11 @@ import androidx.core.net.toUri
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.facecontours.R
-import com.example.facecontours.navigation.Screen
 
 
 @Composable
 fun OnBoardingScreenContainer(navController: NavController) {
+    Log.d("OnBoarding", "ScreenContainer Init")
     OnBoarding(
         onContinueClicked = {
             navController.navigateUp()
