@@ -2,10 +2,10 @@ package com.example.facecontours.presentation.facecontours
 
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import android.util.Size
 import com.example.facecontours.data.local.DataStore
 import com.google.mlkit.vision.face.Face
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,6 +36,13 @@ class FaceContoursViewModel @Inject constructor(
 
     fun updateFaces(newFaces: List<Face>) {
         _faces.value = newFaces
+    }
+
+    private val _imageSize = mutableStateOf(Size(0, 0))
+    val imageSize: State<Size> get() = _imageSize
+
+    fun updateImageSize(width: Int, height: Int) {
+        _imageSize.value = Size(width, height)
     }
 
 }
