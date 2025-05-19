@@ -24,7 +24,7 @@ fun NavGraph(
             OnBoardingScreenContainer(navController)
         }
 
-        composable(Screen.ErrorScreen.route){
+        composable(Screen.ErrorScreen.route) {
             ErrorScreenContainer(navController)
         }
     }

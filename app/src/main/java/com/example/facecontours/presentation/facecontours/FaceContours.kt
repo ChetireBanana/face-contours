@@ -4,7 +4,6 @@ package com.example.facecontours.presentation.facecontours
 import android.annotation.SuppressLint
 import android.graphics.PointF
 import android.util.Log
-import android.util.Size
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -30,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalContext
@@ -66,7 +66,6 @@ fun FaceContoursContainer(navController: NavController) {
     }
 
     val isFirstLaunch by viewModel.isFirstLaunch.collectAsState(initial = true)
-    Log.d("FaceContours", "Container Inite isFirstLaunch: $isFirstLaunch")
 
     LaunchedEffect(isFirstLaunch) {
         if (isFirstLaunch) {
@@ -92,7 +91,8 @@ fun FaceContoursContainer(navController: NavController) {
 fun FaceContours(
     faces: List<Face>,
     analyzer: ImageAnalysis.Analyzer,
-    imageSize: Size
+    imageSize: Size,
+    isInPreview: Boolean = false
 ) {
 
     var showContours by rememberSaveable { mutableStateOf(false) }
@@ -101,7 +101,9 @@ fun FaceContours(
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        CameraPreview(analyzer = analyzer)
+        if (!isInPreview) {
+            CameraPreview(analyzer = analyzer)
+        }
 
         val borderColor = if (faces.isNotEmpty()) Color.Green else Color.Red
 
@@ -137,11 +139,11 @@ fun FaceContours(
 
         }
 
-        if (showContours) {
+        if (showContours && !isInPreview) {
             FaceContoursOverlay(faces = faces, imageSize = imageSize)
         }
 
-        if (showGlass) {
+        if (showGlass && !isInPreview) {
             WearGlassesOverlay(faces = faces, imageSize = imageSize)
         }
     }
@@ -192,7 +194,6 @@ fun WearGlassesOverlay(
     faces: List<Face>,
     imageSize: Size
 ) {
-    val context = LocalContext.current
     val glassesBitmap = ImageBitmap.imageResource(id = R.drawable.cobra_glass)
 
 
@@ -237,9 +238,8 @@ fun WearGlassesOverlay(
                 drawImage(
                     image = glassesBitmap,
                     dstOffset = dstOffset,
-//                    topLeft = topLeft,
-                    dstSize = androidx.compose.ui.unit.IntSize(glassesWidth.toInt(), glassesHeight.toInt())
-                    )
+                    dstSize = IntSize(glassesWidth.toInt(), glassesHeight.toInt())
+                )
             }
         }
     }
@@ -248,8 +248,8 @@ fun WearGlassesOverlay(
 
 fun translatePoint(
     pointF: PointF,
-    imageWidth: Int,
-    imageHeight: Int,
+    imageWidth: Float,
+    imageHeight: Float,
     canvasWidth: Float,
     canvasHeight: Float,
     isFrontCamera: Boolean,
@@ -312,4 +312,16 @@ fun CameraPreview(analyzer: ImageAnalysis.Analyzer) {
             }
         }, ContextCompat.getMainExecutor(context))
     }
+}
+
+
+@Composable
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true)
+fun FaceContoursPreview() {
+    FaceContours(
+        faces = listOf(),
+        analyzer = ImageAnalysis.Analyzer {},
+        imageSize = Size(640f, 480f),
+        isInPreview = true
+    )
 }

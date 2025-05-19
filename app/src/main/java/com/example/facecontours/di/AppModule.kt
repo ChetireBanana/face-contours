@@ -2,6 +2,7 @@ package com.example.facecontours.di
 
 import android.content.Context
 import com.example.facecontours.data.local.DataStore
+import com.example.facecontours.data.local.DataStoreInterface
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +16,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesDataStore(@ApplicationContext context: Context): DataStore {
-        return DataStore(context)
-    }
+    fun providesDataStore(@ApplicationContext context: Context): DataStoreInterface =
+        DataStore(context)
+
 }

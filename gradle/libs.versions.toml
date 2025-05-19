@@ -16,7 +16,12 @@ coil = "3.1.0"
 datastore = "1.1.6"
 faceDetection = "16.1.7"
 acomponist = "0.37.3"
-hiltNavCompose = "1.0.0"
+hiltNavCompose = "1.2.0"
+coroutineTest = "1.10.2"
+turbine = "1.2.0"
+mockito = "5.4.0"
+junitBomVersion = "5.12.2"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +54,17 @@ datastore-preferences = { module = "androidx.datastore:datastore-preferences", v
 ml-kit-face-detection = { module = "com.google.mlkit:face-detection", version.ref = "faceDetection" }
 acomponist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "acomponist" }
 
+koltin-test = {module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin"}
+
+coroutine-test = {module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutineTest"}
+turbine = {module = "app.cash.turbine:turbine", version.ref = "turbine"}
+
+mockito = {module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito"}
+
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junitBomVersion"}
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter"}
+junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

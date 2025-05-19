@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.navigation.NavController
@@ -22,8 +23,6 @@ fun ErrorScreenContainer(navController: NavController) {
     ErrorScreen {
         navController.navigate(Screen.FaceContouring)
     }
-
-
 }
 
 @Composable
@@ -32,7 +31,8 @@ fun ErrorScreen(
 ) {
 
     val context = LocalContext.current
-    val image = "android.resource://${context.packageName}/${R.raw.impossible_to_run_app_image}".toUri()
+    val image =
+        "android.resource://${context.packageName}/${R.raw.impossible_to_run_app_image}".toUri()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -54,10 +54,19 @@ fun ErrorScreen(
         )
 
         Button(
-            onClick = onTryAgainClicked
-        ){
+            onClick = onTryAgainClicked,
+            modifier = Modifier.padding(top = 16.dp)
+        ) {
             Text(text = "Try again")
         }
+
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ErrorScreenPreview() {
+    ErrorScreen {
 
     }
 }

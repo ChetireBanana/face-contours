@@ -10,8 +10,8 @@ import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
 
-class ImageAnalyzer (
-    private val onFaceDetected: (faces:List<Face>, width: Int, height: Int) -> Unit,
+class ImageAnalyzer(
+    private val onFaceDetected: (faces: List<Face>, width: Int, height: Int) -> Unit,
 ) : ImageAnalysis.Analyzer {
 
 
@@ -30,8 +30,10 @@ class ImageAnalyzer (
             val rotationDegrees = imageProxy.imageInfo.rotationDegrees
             val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
 
-            val width = if (rotationDegrees == 90 || rotationDegrees == 270) mediaImage.height else mediaImage.width
-            val height = if (rotationDegrees == 90 || rotationDegrees == 270) mediaImage.width else mediaImage.height
+            val width =
+                if (rotationDegrees == 90 || rotationDegrees == 270) mediaImage.height else mediaImage.width
+            val height =
+                if (rotationDegrees == 90 || rotationDegrees == 270) mediaImage.width else mediaImage.height
 
             detector.process(image)
                 .addOnSuccessListener { faces ->
@@ -40,7 +42,7 @@ class ImageAnalyzer (
                 }
                 .addOnFailureListener {
                     Log.d("ImageAnalyzer", "On Failure")
-                   onFaceDetected(emptyList(), width, height)
+                    onFaceDetected(emptyList(), width, height)
                 }
                 .addOnCompleteListener {
                     imageProxy.close()

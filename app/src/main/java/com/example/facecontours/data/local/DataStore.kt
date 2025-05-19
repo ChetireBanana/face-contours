@@ -12,20 +12,26 @@ import javax.inject.Singleton
 
 val Context.dataStore by preferencesDataStore(name = "settings")
 
+
+interface DataStoreInterface {
+    val isFirstLaunchFlow: Flow<Boolean>
+    suspend fun setFirstLaunchDone()
+}
+
 @Singleton
 class DataStore @Inject constructor(
     @ApplicationContext private val context: Context
-) {
+) : DataStoreInterface {
 
     companion object {
         private val FIRST_LAUNCH_KEY = booleanPreferencesKey("is_first_launch")
     }
 
-    val isFirstLaunchFlow: Flow<Boolean> = context.dataStore.data
+    override val isFirstLaunchFlow: Flow<Boolean> = context.dataStore.data
         .map { preferences -> preferences[FIRST_LAUNCH_KEY] != false }
 
 
-    suspend fun setFirstLaunchDone() {
+    override suspend fun setFirstLaunchDone() {
         context.dataStore.edit { preferences ->
             preferences[FIRST_LAUNCH_KEY] = false
         }

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hiltAndroidGradlePlugin)
+    jacoco
 
 
 }
@@ -41,6 +42,7 @@ android {
     buildFeatures {
         compose = true
     }
+
 }
 
 dependencies {
@@ -57,6 +59,7 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.dagger.hilt.android)
+
     ksp(libs.hilt.compiller)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.camera.core)
@@ -69,11 +72,28 @@ dependencies {
     implementation(libs.ml.kit.face.detection)
     implementation(libs.acomponist.permissions)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+    testImplementation(libs.mockito)
+    testImplementation(libs.turbine)
+    testImplementation(libs.coroutine.test)
+
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.platform.launcher)
+
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    testImplementation(kotlin("test"))
 }
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    maxHeapSize = "1G"
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
