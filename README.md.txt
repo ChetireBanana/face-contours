@@ -1,9 +1,9 @@
 # Face Contours App
 
-An Android application for real-time face contour detection and puting on sunglasses mask
+An Android *application for real-time* **face *contour* detection** and ~~puting~~ on sunglasses mask
 
 ## Features
-- Real-time face contour detection
+*Real-time face contour detection*
 - Onboarding screen on first launch
 - Draw points and contours over detected faces
 - Built using modern Android technologies:
